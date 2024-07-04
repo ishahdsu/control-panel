@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control Buttons</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        .buttons-grid {
+            display: grid;
+            grid-template-rows: repeat(3, 100px);
+            grid-template-columns: repeat(3, 100px);
+            grid-gap: 10px;
+            justify-items: center;
+            align-items: center;
+        }
+        .button {
+            padding: 15px 30px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: white;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        .center {
+            grid-row: 2;
+            grid-column: 2;
+        }
+        .top {
+            grid-row: 1;
+            grid-column: 2;
+        }
+        .bottom {
+            grid-row: 3;
+            grid-column: 2;
+        }
+        .left {
+            grid-row: 2;
+            grid-column: 1;
+        }
+        .right {
+            grid-row: 2;
+            grid-column: 3;
+        }
+    </style>
+</head>
+<body>
+    <div class="buttons-grid">
+        <button type="button" class="button top" onclick="logPress('Forward')">Forward</button>
+        <button type="button" class="button left" onclick="logPress('Left')">Left</button>
+        <button type="button" class="button center" onclick="logPress('Stop')">Stop</button>
+        <button type="button" class="button right" onclick="logPress('Right')">Right</button>
+        <button type="button" class="button bottom" onclick="logPress('Backward')">Backward</button>
+    </div>
+
+    <script>
+        function logPress(button) {
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "log_press.php", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        console.log(xhr.responseText);
+                    } else {
+                        console.error("There was a problem with the request.");
+                    }
+                }
+            };
+            xhr.send("button=" + button);
+        }
+    </script>
+</body>
+</html>
